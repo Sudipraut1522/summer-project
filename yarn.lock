@@ -1321,6 +1321,11 @@ ignore@^5.2.0, ignore@^5.2.4:
   resolved "https://registry.npmjs.org/ignore/-/ignore-5.3.1.tgz"
   integrity sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==
 
+"immer@>=8.0.1 <10.0.0":
+  version "9.0.21"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.21.tgz#1e025ea31a40f24fb064f1fef23e931496330176"
+  integrity sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA==
+
 import-fresh@^3.2.1:
   version "3.3.0"
   resolved "https://registry.npmjs.org/import-fresh/-/import-fresh-3.3.0.tgz"
@@ -1512,6 +1517,11 @@ lru-cache@^6.0.0:
   resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-10.2.0.tgz"
   integrity sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==
 
+lucide-react@^0.340.0:
+  version "0.340.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.340.0.tgz#67a6fac6a5e257f2036dffae0dd94d6ccb28ce8e"
+  integrity sha512-mWzYhbyy2d+qKuKHh+GWElPwa+kIquTnKbmSLGWOuZy+bjfZCkYD8DQWVFlqI4mQwc4HNxcqcOvtQ7ZS2PwURg==
+
 merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/merge2/-/merge2-1.4.1.tgz"
@@ -1543,6 +1553,13 @@ minimatch@^3.0.5, minimatch@^3.1.1, minimatch@^3.1.2:
   version "7.0.4"
   resolved "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz"
   integrity sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==
+
+model@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/model/-/model-6.0.1.tgz#db70e97ba5d452d06b79e8789358c0ba45292f2e"
+  integrity sha512-khQLGVbt7qvMV7/lp990+CaLWJZC6KxtV8y9iJ7Qlj3+82JtJIZfRacVIC8YjTUTHFbUn91FOxWdhRGjRVjdsQ==
+  dependencies:
+    utilities "1.0.x"
 
 ms@2.1.2:
   version "2.1.2"
@@ -1762,6 +1779,13 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
+react-model@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-model/-/react-model-4.3.1.tgz#e40b9f87aec648c893c797405867aff722ccfca8"
+  integrity sha512-C19K5EUTTETki5IVqppOD8u+xkJvwL6w/RK8SHLZ6cvU1YSjvscKiUGfYsQHxouk6OhdoSQYHkDbxxLanPs72A==
+  dependencies:
+    immer ">=8.0.1 <10.0.0"
+
 react-refresh@^0.14.0:
   version "0.14.0"
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.14.0.tgz"
@@ -1890,6 +1914,7 @@ source-map-js@^1.0.2:
   integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -2063,6 +2088,11 @@ util-deprecate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
+
+utilities@1.0.x:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/utilities/-/utilities-1.0.6.tgz#c7038f3dc61f4041562ce3585f45e8a13189a761"
+  integrity sha512-OYHwdtji3y636osVdsuLdXT4swOAAEwgznGZey9cgGtQma31eLsZ9NzEarQARcIQAv81EBZrCIKn6nIDmv9cZw==
 
 vite@^5.1.4:
   version "5.1.4"
