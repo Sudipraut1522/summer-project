@@ -19,18 +19,11 @@ const customStyles = {
 };
 
 interface ModelOpen {
-  open: boolean;
+  openLogin: boolean;
   onClose: () => void;
-  toregister?: boolean;
-  login?: () => void;
 }
 
-const ModalComponent: React.FC<ModelOpen> = ({
-  open,
-  onClose,
-  toregister,
-  login,
-}) => {
+const LoginModal: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
   const {
     register,
     handleSubmit,
@@ -54,29 +47,13 @@ const ModalComponent: React.FC<ModelOpen> = ({
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div className="">
-        <Modal isOpen={open} style={customStyles} onRequestClose={onClose}>
+        <Modal isOpen={openLogin} style={customStyles} onRequestClose={onClose}>
           <div className="p-4">
             <div className="flex justify-center">
-              <div className="text-3xl">
-                {toregister ? "Register" : "Login"}
-              </div>
+              <div className="text-3xl">Login</div>
             </div>
             <hr />
             <form onSubmit={handleSubmit(onSubmit)}>
-              {toregister && (
-                <div>
-                  <InputField
-                    register={register}
-                    name="username"
-                    type="text"
-                    labelname="username"
-                    placeholder="Username"
-                  />
-                  <span className="text-red-600">
-                    {errors?.username?.message}
-                  </span>
-                </div>
-              )}
               <InputField
                 register={register}
                 name="email"
@@ -97,18 +74,7 @@ const ModalComponent: React.FC<ModelOpen> = ({
                   {errors?.password?.message}
                 </span>
               </div>
-              <div>
-                {toregister && (
-                  <div>
-                    <p>
-                      Already have an Account?
-                      <span>
-                        <button onClick={login}>Login</button>
-                      </span>
-                    </p>
-                  </div>
-                )}
-              </div>
+              <div></div>
 
               <div className="py-4 flex gap-4">
                 <Button text="Login" />
@@ -122,4 +88,4 @@ const ModalComponent: React.FC<ModelOpen> = ({
   );
 };
 
-export default ModalComponent;
+export default LoginModal;

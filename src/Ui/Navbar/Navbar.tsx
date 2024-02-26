@@ -1,12 +1,23 @@
 import React, { useState } from "react";
-import Button from "../../component/Button/Button";
 import Search from "../../component/Search/Search";
 import ModalComponent from "../../component/model/ModalComponent";
 import { Upload } from "lucide-react";
+import LoginModal from "../../component/model/LoginModal";
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showLogin, setLoginModal] = useState(false);
+  const [register, setRegister] = useState(true);
 
+  const login = () => {
+    setLoginModal(true);
+  };
+  const closeLogin = () => {
+    setLoginModal(false);
+  };
+  const tologin = () => {
+    setRegister(false);
+  };
   const closeModal = () => {
     setShowModal(false);
   };
@@ -17,10 +28,6 @@ const Navbar = () => {
 
   const onSearch = () => {
     console.log("search");
-  };
-
-  const handleClick = () => {
-    console.log("Button clicked");
   };
 
   return (
@@ -37,22 +44,30 @@ const Navbar = () => {
         <div className="flex gap-4">
           <div className="flex">
             <div>
-              <button onClick={openModal}>
-                <div className="flex items-center text-white justify-center p-2 rounded-md border-2">
+              <button onClick={login}>
+                <div className="flex items-center text-white justify-center p-2 rounded-md border-2 gap-4">
                   <div className="text-xl">Upload</div>
                   <span>
                     <Upload />
                   </span>
                 </div>
               </button>
-              <ModalComponent open={showModal} onClose={closeModal} />
+              <LoginModal openLogin={showLogin} onClose={closeLogin} />
             </div>
           </div>
+
           <div>
-            <Button onClick={handleClick} text="Login" />
-          </div>
-          <div>
-            <Button onClick={handleClick} text="Signup" />
+            <button onClick={openModal}>
+              <div className="flex items-center text-white justify-center p-2 rounded-md border-2 gap-4">
+                <div className="text-xl">{register ? "Register" : "Login"}</div>
+              </div>
+            </button>
+            <ModalComponent
+              open={showModal}
+              onClose={closeModal}
+              toregister={register}
+              login={tologin}
+            />
           </div>
         </div>
       </ul>
