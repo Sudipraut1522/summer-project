@@ -3,6 +3,7 @@ import Search from "../../component/Search/Search";
 import ModalComponent from "../../component/model/ModalComponent";
 import { Upload } from "lucide-react";
 import LoginModal from "../../component/model/LoginModal";
+import Footer from "./footer/Footer";
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -31,46 +32,51 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-red-600 p-4">
-      <ul className="flex justify-between mx-10 items-center">
-        <div>
-          <li>
-            <h3 className="text-3xl text-white">Video Streaming</h3>
-          </li>
-        </div>
-        <div>
-          <Search placeholder="search..." onSearch={onSearch} />
-        </div>
-        <div className="flex gap-4">
-          <div className="flex">
+    <div className="flex flex-col min-h-screen">
+      <div className="bg-red-600 p-4">
+        <ul className="flex justify-between mx-10 items-center">
+          <div>
+            <li>
+              <h3 className="text-3xl text-white">Video Streaming</h3>
+            </li>
+          </div>
+          <div>
+            <Search placeholder="search..." onSearch={onSearch} />
+          </div>
+          <div className="flex gap-4">
+            <div className="flex">
+              <div>
+                <button onClick={login}>
+                  <div className="flex items-center text-white justify-center p-2 rounded-md border-2 gap-4">
+                    <div className="text-xl">Upload</div>
+                    <span>
+                      <Upload />
+                    </span>
+                  </div>
+                </button>
+                <LoginModal openLogin={showLogin} onClose={closeLogin} />
+              </div>
+            </div>
+
             <div>
-              <button onClick={login}>
+              <button onClick={openModal}>
                 <div className="flex items-center text-white justify-center p-2 rounded-md border-2 gap-4">
-                  <div className="text-xl">Upload</div>
-                  <span>
-                    <Upload />
-                  </span>
+                  <div className="text-xl">
+                    {register ? "Register" : "Login"}
+                  </div>
                 </div>
               </button>
-              <LoginModal openLogin={showLogin} onClose={closeLogin} />
+              <ModalComponent
+                open={showModal}
+                onClose={closeModal}
+                toregister={register}
+                login={tologin}
+              />
             </div>
           </div>
-
-          <div>
-            <button onClick={openModal}>
-              <div className="flex items-center text-white justify-center p-2 rounded-md border-2 gap-4">
-                <div className="text-xl">{register ? "Register" : "Login"}</div>
-              </div>
-            </button>
-            <ModalComponent
-              open={showModal}
-              onClose={closeModal}
-              toregister={register}
-              login={tologin}
-            />
-          </div>
-        </div>
-      </ul>
+        </ul>
+      </div>
+      <div className="flex-grow"></div> <Footer />
     </div>
   );
 };
