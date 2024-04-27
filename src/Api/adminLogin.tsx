@@ -8,7 +8,7 @@ const login = async (data: Tlogin) => {
   console.log("i am here", data);
   try {
     const response = await axios({
-      url: "http://localhost:4000/api/v1/login",
+      url: "http://localhost:4000/api/v1/adminlogin",
       data: data,
       method: "POST",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -24,7 +24,7 @@ const login = async (data: Tlogin) => {
     // Handle error, e.g., display error message to user
   }
 };
-export const userLogin = () => {
+export const adminLogin = () => {
   return useMutation({
     mutationFn: (data: Tlogin | any) => login(data),
     onSuccess: () => {

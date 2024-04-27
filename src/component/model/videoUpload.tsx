@@ -4,9 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputField from "../Input/Inputfield";
 import Button from "../Button/Button";
-import { userRegister } from "../../Api/userRegister";
-import { Tregister, regesterSchema } from "../../schema/LoginSchema";
-import { Navigate, useNavigate } from "react-router-dom";
+
+import { Tvideo, videoSchema } from "../../schema/videoschema";
 const customStyles = {
   content: {
     top: "40%",
@@ -26,41 +25,37 @@ interface ModelOpen {
   login?: () => void;
 }
 
-const ModalComponent: React.FC<ModelOpen> = ({
+const VideoUploadMod: React.FC<ModelOpen> = ({
   open,
   onClose,
   toregister,
   login,
 }) => {
-  const { mutate, isSuccess } = userRegister();
-  const navigate = useNavigate(); // Get the history object
-
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Tregister>({
-    resolver: zodResolver(regesterSchema),
+  } = useForm<Tvideo>({
+    resolver: zodResolver(videoSchema),
 
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
+      teachername: "",
+      title: "",
+      description: "",
+      image: "",
     },
   });
 
-  const onSubmit: SubmitHandler<Tregister> = async (data) => {
-    await mutate(data);
-  };
+  const onSubmit: SubmitHandler<Tvideo> = async (data) => {};
 
   // Redirect to the next page after a successful registration
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/admin");
-      // Change "/next-page" to the desired route
-    }
-  }, [isSuccess, navigate]);
+  //   useEffect(() => {
+  //     if (isSuccess) {
+  //       navigate("/admin");
+  //       // Change "/next-page" to the desired route
+  //     }
+  //   }, [isSuccess, navigate]);
 
   return (
     <div className="flex justify-center items-center h-full w-full">
@@ -68,9 +63,7 @@ const ModalComponent: React.FC<ModelOpen> = ({
         <Modal isOpen={open} style={customStyles} onRequestClose={onClose}>
           <div className="p-4">
             <div className="flex justify-center">
-              <div className="text-3xl">
-                {toregister ? "Register" : "Login"}
-              </div>
+              <div className="text-3xl">UploadVideo</div>
             </div>
             <hr />
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -78,52 +71,52 @@ const ModalComponent: React.FC<ModelOpen> = ({
               <div>
                 <InputField
                   register={register}
-                  name="username"
+                  name="teachername"
                   type="text"
-                  labelname="username"
+                  labelname="TeacherName"
                   placeholder="Username"
                 />
                 <span className="text-red-600">
-                  {errors?.username?.message}
+                  {errors?.teachername?.message}
                 </span>
               </div>
               {/* ) */}
 
               <InputField
                 register={register}
-                name="email"
-                type="email"
-                labelname="Email"
-                placeholder="Email"
+                name="title"
+                type="text"
+                labelname="Title"
+                placeholder="video Title"
               />
-              <span className="text-red-600">{errors?.email?.message}</span>
+              <span className="text-red-600">{errors?.title?.message}</span>
               <InputField
                 register={register}
-                name="password"
-                type={"text"}
-                labelname="password"
-                placeholder="password"
+                name="image"
+                type={"file"}
+                labelname="image"
+                placeholder="image"
               />
               <div>
-                <span className="text-red-600">
-                  {errors?.password?.message}
-                </span>
+                {/* <span className="text-red-600">{errors?.image?.message}</span> */}
               </div>
               <div>
-                {toregister && (
-                  <div>
-                    <p>
-                      Already have an Account?
-                      <span>
-                        <button onClick={login}>Login</button>
-                      </span>
-                    </p>
-                  </div>
-                )}
+                <InputField
+                  register={register}
+                  name="description"
+                  type={"text"}
+                  labelname="Description"
+                  placeholder="Description"
+                />
+                <div>
+                  <span className="text-red-600">
+                    {errors?.description?.message}
+                  </span>
+                </div>
               </div>
 
               <div className="py-4 flex gap-4">
-                <Button text="Login" />
+                <Button text="Upload" />
                 <Button text="Close" onClick={onClose} />
               </div>
             </form>
@@ -134,4 +127,4 @@ const ModalComponent: React.FC<ModelOpen> = ({
   );
 };
 
-export default ModalComponent;
+export default VideoUploadMod;

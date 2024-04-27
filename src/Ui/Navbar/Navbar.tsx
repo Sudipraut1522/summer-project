@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Search from "../../component/Search/Search";
 import ModalComponent from "../../component/model/Register";
-import { LogIn, Upload } from "lucide-react";
-import LoginModal from "../../component/model/LoginModal";
+import { LogIn } from "lucide-react";
 import Footer from "./footer/Footer";
+import UserLoginModel from "../../component/model/userLogin";
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -54,7 +54,7 @@ const Navbar = () => {
                     </span>
                   </div>
                 </button>
-                <LoginModal openLogin={showLogin} onClose={closeLogin} />
+                <UserLoginModel openLogin={showLogin} onClose={closeLogin} />
               </div>
             </div>
 

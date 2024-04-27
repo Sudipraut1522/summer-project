@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,6 +6,9 @@ import { Tlogin, loginSchema } from "../../schema/LoginSchema";
 import InputField from "../Input/Inputfield";
 import Button from "../Button/Button";
 import { userLogin } from "../../Api/userLoin";
+import { useAuth } from "../../Auth";
+
+import { useNavigate } from "react-router-dom";
 const customStyles = {
   content: {
     top: "40%",
@@ -23,12 +26,29 @@ interface ModelOpen {
   onClose: () => void;
 }
 
-const LoginModal: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
-  // const { mutate } = userLogin();
+const UserLoginModel: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
+  const router = useNavigate();
+  const { mutate, isSuccess } = userLogin();
+  const { isLoggedIn } = useAuth();
+
+  useEffect(() => {
+    if (isSuccess) {
+      // checkToken();
+    }
+    if (localStorage.getItem("token")) {
+      router("/admin");
+    } else {
+      router("/");
+    }
+  }, [isSuccess]);
+  if (isLoggedIn) {
+    // router("/dashboard");
+    return;
+  }
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<Tlogin>({
     resolver: zodResolver(loginSchema),
@@ -40,7 +60,7 @@ const LoginModal: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
 
   const onSubmit: SubmitHandler<Tlogin> = async (data) => {
     console.log("data", data);
-    // return mutate(data);
+    mutate(data);
   };
 
   return (
@@ -87,4 +107,4 @@ const LoginModal: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
   );
 };
 
-export default LoginModal;
+export default UserLoginModel;

@@ -7,7 +7,7 @@ import axios from "axios";
 export const allUser = async () => {
   try {
     const responce = await axios({
-      url: "http://localhost:4000/api/v1/userDetail",
+      url: "http://localhost:4000/api/v1/upload",
       method: "GET",
     });
     console.log(responce.data?.users);
@@ -22,15 +22,3 @@ export const getAllUser = () => {
     queryFn: () => allUser(),
   });
 };
-
-// export const getAllUser = async () => {
-//   return useMutation({
-//     mutationFn: (data: any) => allUser(data),
-//     onSuccess: (data: any) => {
-//       toast.success(`${data.message}`);
-//     },
-//     onError: (error: any) => {
-//       toast.error(`Some error occured`, error);
-//     },
-//   });
-// };
