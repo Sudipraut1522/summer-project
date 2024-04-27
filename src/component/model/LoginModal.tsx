@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tlogin, loginSchema } from "../../schema/LoginSchema";
 import InputField from "../Input/Inputfield";
 import Button from "../Button/Button";
-
+import { userLogin } from "../../Api/userLoin";
 const customStyles = {
   content: {
     top: "40%",
@@ -24,6 +24,7 @@ interface ModelOpen {
 }
 
 const LoginModal: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
+  // const { mutate } = userLogin();
   const {
     register,
     handleSubmit,
@@ -31,23 +32,21 @@ const LoginModal: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
     formState: { errors },
   } = useForm<Tlogin>({
     resolver: zodResolver(loginSchema),
-
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<Tlogin> = (data) => {
-    reset();
-
-    return console.log("data", data);
+  const onSubmit: SubmitHandler<Tlogin> = async (data) => {
+    console.log("data", data);
+    // return mutate(data);
   };
 
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div className="">
-        <Modal isOpen={openLogin} style={customStyles} onRequestClose={onClose}>
+        <Modal isOpen={openLogin} style={customStyles}>
           <div className="p-4">
             <div className="flex justify-center">
               <div className="text-3xl">Login</div>

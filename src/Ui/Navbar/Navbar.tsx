@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Search from "../../component/Search/Search";
-import ModalComponent from "../../component/model/ModalComponent";
-import { Upload } from "lucide-react";
+import ModalComponent from "../../component/model/Register";
+import { LogIn, Upload } from "lucide-react";
 import LoginModal from "../../component/model/LoginModal";
 import Footer from "./footer/Footer";
 
@@ -48,9 +48,9 @@ const Navbar = () => {
               <div>
                 <button onClick={login}>
                   <div className="flex items-center text-white justify-center p-2 rounded-md border-2 gap-4">
-                    <div className="text-xl">Upload</div>
+                    <div className="text-xl">Login</div>
                     <span>
-                      <Upload />
+                      <LogIn />
                     </span>
                   </div>
                 </button>

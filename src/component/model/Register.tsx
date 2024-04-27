@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Tlogin, loginSchema } from "../../schema/LoginSchema";
 import InputField from "../Input/Inputfield";
 import Button from "../Button/Button";
-
+import { userRegister } from "../../Api/userRegister";
+import { Tregister, regesterSchema } from "../../schema/LoginSchema";
 const customStyles = {
   content: {
     top: "40%",
@@ -31,24 +31,26 @@ const ModalComponent: React.FC<ModelOpen> = ({
   toregister,
   login,
 }) => {
+  const { mutate } = userRegister();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Tlogin>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<Tregister>({
+    resolver: zodResolver(regesterSchema),
 
     defaultValues: {
+      username: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<Tlogin> = (data) => {
-    reset();
-
-    return console.log("data", data);
+  const onSubmit: SubmitHandler<Tregister> = async (data) => {
+    console.log(data);
+    mutate(data);
+    reset;
   };
 
   return (
@@ -63,20 +65,32 @@ const ModalComponent: React.FC<ModelOpen> = ({
             </div>
             <hr />
             <form onSubmit={handleSubmit(onSubmit)}>
-              {toregister && (
-                <div>
-                  <InputField
-                    register={register}
-                    name="username"
-                    type="text"
-                    labelname="username"
-                    placeholder="Username"
-                  />
-                  <span className="text-red-600">
-                    {errors?.username?.message}
-                  </span>
-                </div>
-              )}
+              {/* {toregister && ( */}
+              <div>
+                <InputField
+                  register={register}
+                  name="username"
+                  type="text"
+                  labelname="username"
+                  placeholder="Username"
+                />
+                <span className="text-red-600">
+                  {errors?.username?.message}
+                </span>
+              </div>
+              {/* )} */}
+              {/* <div>
+                <InputField
+                  register={register}
+                  name="fullname"
+                  type="text"
+                  labelname="Fullname"
+                  placeholder="Fullname"
+                />
+                <span className="text-red-600">
+                  {errors?.fullname?.message}
+                </span>
+              </div> */}
               <InputField
                 register={register}
                 name="email"
