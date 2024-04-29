@@ -4,10 +4,10 @@ import axios from "axios";
 // import { useMutation } from "react-query";
 // import toast from "react-hot-toast";
 
-export const allUser = async () => {
+export const video = async () => {
   try {
     const responce = await axios({
-      url: "http://localhost:4000/api/v1/upload",
+      url: "http://localhost:4000/api/v1/videos",
       method: "GET",
     });
     console.log(responce.data?.users);
@@ -16,9 +16,9 @@ export const allUser = async () => {
     console.log("something went wrong");
   }
 };
-export const getAllUser = () => {
+export const getAllVideo = () => {
   return useQuery({
     queryKey: ["all_dish"],
-    queryFn: () => allUser(),
+    queryFn: () => video(),
   });
 };

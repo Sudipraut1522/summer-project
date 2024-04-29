@@ -31,7 +31,6 @@ const InputField: React.FC<InputFieldProps> = ({
         placeholder={placeholder}
         className="text-l p-2 border-2 border-red-600 rounded-md"
         {...rest}
-        icone={leftIcon}
       />
     </div>
   );

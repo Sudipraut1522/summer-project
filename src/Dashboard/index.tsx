@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth";
 import VideoUploadModel from "../component/model/videoUpload";
-import { allUser } from "../Api/getallUsers";
-import { Table } from "../component/model/Table";
+import { allUser, getAllUser } from "../Api/getallUsers";
+import { video } from "../Api/getAllVideo";
 
 export const Dashboard = () => {
   const router = useNavigate();
@@ -35,7 +35,7 @@ export const Dashboard = () => {
                   <button onClick={allUser}>Users</button>
                 </li>
                 <li className="py-2">
-                  <button>Video</button>
+                  <button onClick={video}> Video</button>
                 </li>
                 <li className="py-2">
                   <button onClick={openModel}>UploadVideo</button>
@@ -54,9 +54,7 @@ export const Dashboard = () => {
             </div>
           </div>
         </aside>
-        <div>
-          <Table />
-        </div>
+        <div></div>
       </div>
       {/* Main Content */}
       <main className="p-8">

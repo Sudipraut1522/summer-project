@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Modal from "react-modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,6 +6,7 @@ import InputField from "../Input/Inputfield";
 import Button from "../Button/Button";
 
 import { Tvideo, videoSchema } from "../../schema/videoschema";
+import { uploadVideo } from "../../Api/videoUpload";
 const customStyles = {
   content: {
     top: "40%",
@@ -25,16 +26,11 @@ interface ModelOpen {
   login?: () => void;
 }
 
-const VideoUploadMod: React.FC<ModelOpen> = ({
-  open,
-  onClose,
-  toregister,
-  login,
-}) => {
+const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
+  const { mutate } = uploadVideo();
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<Tvideo>({
     resolver: zodResolver(videoSchema),
@@ -43,11 +39,14 @@ const VideoUploadMod: React.FC<ModelOpen> = ({
       teachername: "",
       title: "",
       description: "",
-      image: "",
+      // url: "",
     },
   });
 
-  const onSubmit: SubmitHandler<Tvideo> = async (data) => {};
+  const onSubmit: SubmitHandler<Tvideo> = async (data) => {
+    console.log("dsahgdjasd", data);
+    mutate(data);
+  };
 
   // Redirect to the next page after a successful registration
   //   useEffect(() => {
@@ -74,7 +73,7 @@ const VideoUploadMod: React.FC<ModelOpen> = ({
                   name="teachername"
                   type="text"
                   labelname="TeacherName"
-                  placeholder="Username"
+                  placeholder="teachername"
                 />
                 <span className="text-red-600">
                   {errors?.teachername?.message}
@@ -92,19 +91,19 @@ const VideoUploadMod: React.FC<ModelOpen> = ({
               <span className="text-red-600">{errors?.title?.message}</span>
               <InputField
                 register={register}
-                name="image"
-                type={"file"}
+                name="url"
+                type="file"
                 labelname="image"
                 placeholder="image"
               />
               <div>
-                {/* <span className="text-red-600">{errors?.image?.message}</span> */}
+                {/* <span className="text-red-600">{errors?.url?.message}</span> */}
               </div>
               <div>
                 <InputField
                   register={register}
                   name="description"
-                  type={"text"}
+                  type="text"
                   labelname="Description"
                   placeholder="Description"
                 />
