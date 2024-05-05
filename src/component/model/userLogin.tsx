@@ -29,22 +29,17 @@ interface ModelOpen {
 const UserLoginModel: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
   const router = useNavigate();
   const { mutate, isSuccess } = userLogin();
-  const { isLoggedIn } = useAuth();
-
+  const { checkToken } = useAuth();
   useEffect(() => {
     if (isSuccess) {
-      // checkToken();
+      checkToken();
     }
     if (localStorage.getItem("token")) {
-      router("/admin");
+      router("/home");
     } else {
       router("/");
     }
   }, [isSuccess]);
-  if (isLoggedIn) {
-    // router("/dashboard");
-    return;
-  }
 
   const {
     register,

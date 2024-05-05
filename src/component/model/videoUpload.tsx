@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,10 +27,11 @@ interface ModelOpen {
 }
 
 const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
-  const { mutate } = uploadVideo();
+  const { mutate, isSuccess } = uploadVideo();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Tvideo>({
     resolver: zodResolver(videoSchema),
@@ -39,23 +40,21 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
       teachername: "",
       title: "",
       description: "",
-      // url: "",
+      videourl: {},
     },
   });
 
   const onSubmit: SubmitHandler<Tvideo> = async (data) => {
-    console.log("dsahgdjasd", data);
-    mutate(data);
+    const formData = new FormData();
+    formData.append("teachername", data.teachername);
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    // formData.append("image", data.image[0]);
+    formData.append("videourl", data.videourl[0]);
+    mutate({ ...data, videourl: data?.videourl[0] });
   };
 
-  // Redirect to the next page after a successful registration
-  //   useEffect(() => {
-  //     if (isSuccess) {
-  //       navigate("/admin");
-  //       // Change "/next-page" to the desired route
-  //     }
-  //   }, [isSuccess, navigate]);
-
+  console.log(errors, "errors");
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div className="">
@@ -89,16 +88,28 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
                 placeholder="video Title"
               />
               <span className="text-red-600">{errors?.title?.message}</span>
-              <InputField
+              {/* <InputField
                 register={register}
-                name="url"
+                name="image"
                 type="file"
                 labelname="image"
                 placeholder="image"
-              />
+              /> */}
               <div>
-                {/* <span className="text-red-600">{errors?.url?.message}</span> */}
+                {/* <span className="text-red-600">{errors.image?.message}</span> */}
               </div>
+              <div>
+                <InputField
+                  register={register}
+                  name="videourl"
+                  type="file"
+                  labelname="video"
+                  placeholder="video..."
+                />
+              </div>
+              {/* <div> */}
+              {/* <span className="text-red-600">{errors.image?.message}</span> */}
+              {/* </div>  */}
               <div>
                 <InputField
                   register={register}

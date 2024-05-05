@@ -6,7 +6,7 @@ import InputField from "../Input/Inputfield";
 import Button from "../Button/Button";
 import { userRegister } from "../../Api/userRegister";
 import { Tregister, regesterSchema } from "../../schema/LoginSchema";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const customStyles = {
   content: {
     top: "40%",
@@ -57,7 +57,7 @@ const ModalComponent: React.FC<ModelOpen> = ({
   // Redirect to the next page after a successful registration
   useEffect(() => {
     if (isSuccess) {
-      navigate("/admin");
+      navigate("/");
       // Change "/next-page" to the desired route
     }
   }, [isSuccess, navigate]);
@@ -65,7 +65,7 @@ const ModalComponent: React.FC<ModelOpen> = ({
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div className="">
-        <Modal isOpen={open} style={customStyles} onRequestClose={onClose}>
+        <Modal isOpen={open} style={customStyles}>
           <div className="p-4">
             <div className="flex justify-center">
               <div className="text-3xl">

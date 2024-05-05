@@ -1,8 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-// import { baseUrl } from "./userRegister";
-// import { useMutation } from "react-query";
-// import toast from "react-hot-toast";
 
 export const video = async () => {
   try {
@@ -11,14 +8,14 @@ export const video = async () => {
       method: "GET",
     });
     console.log(responce.data?.users);
-    return responce?.data;
+    return responce?.data?.users;
   } catch (error) {
     console.log("something went wrong");
   }
 };
 export const getAllVideo = () => {
   return useQuery({
-    queryKey: ["all_dish"],
-    queryFn: () => video(),
+    queryKey: ["users"],
+    queryFn: video,
   });
 };

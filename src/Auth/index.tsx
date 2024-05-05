@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 interface IAuthContext {
   isLoggedIn: boolean;
-  role?: string;
+  role?: boolean;
   checkToken: () => void;
   logout: () => void;
 }
@@ -14,7 +14,6 @@ export const AuthProvider = (props: any) => {
   const router = useNavigate();
   const [isLoggedIn, setLoggedIn] = React.useState<boolean>(false);
   const [role, setRole] = React.useState<String>("");
-  console.log("heloooooooooo");
   const checkToken = () => {
     const tokan = localStorage.getItem("token");
     const role = localStorage.getItem("role");
