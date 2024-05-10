@@ -6,16 +6,7 @@ const ACCEPTED_VIDEO_TYPES = ["video/mp4", "video/webm"]; // Accept all video MI
 export const videoSchema = z.object({
   teachername: z.string().min(5, { message: "teacher is required" }),
   title: z.string().min(5, { message: "Title is required" }),
-  // image: z
-  //   .any()
-  //   .refine(
-  //     (files) => files?.[0]?.size <= MAX_FILE_SIZE,
-  //     `Max image size is 5MB.`
-  //   )
-  //   .refine(
-  //     (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-  //     "Only .jpg, .jpeg, .png and .webp formats are supported."
-  //   ),
+  category: z.string().min(1, { message: "Title is required" }),
 
   videourl: z
     .any()

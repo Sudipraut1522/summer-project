@@ -15,7 +15,7 @@ export const video = async () => {
 };
 export const getAllVideo = () => {
   return useQuery({
-    queryKey: ["users"],
+    queryKey: ["usersvideo"],
     queryFn: video,
   });
 };

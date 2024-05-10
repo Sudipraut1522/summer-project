@@ -1,21 +1,10 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth";
-import { userDelete } from "../Api/userDelete";
 import UserPage from "./usertable";
 import VideoPage from "./videopage";
 import VideoUploadMod from "../component/model/videoUpload";
 export const Dashboard = () => {
-  const { mutate, isSuccess } = userDelete();
-  const handleDelete = (id: any) => {
-    mutate(id);
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-    }
-  }, [isSuccess]);
-
   const router = useNavigate();
   const { logout } = useAuth();
 
@@ -44,8 +33,6 @@ export const Dashboard = () => {
             role="button"
             tabIndex={0}
             className="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
-            id="book"
-            onClick={() => setDashboard("blocks")}
           >
             <div className="grid place-items-center mr-4">
               <svg
@@ -89,6 +76,8 @@ export const Dashboard = () => {
           </div>
 
           <div
+            id="book"
+            onClick={() => setDashboard("blocks")}
             role="button"
             tabIndex={0}
             className="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
@@ -111,6 +100,7 @@ export const Dashboard = () => {
             userProfile
           </div>
           <div
+            onClick={openModel}
             role="button"
             tabIndex={0}
             className="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
@@ -132,6 +122,7 @@ export const Dashboard = () => {
             </div>
             videoUpload
           </div>
+          {open && <VideoUploadMod onClose={closeMOdel} open={open} />}
           <div
             role="button"
             tabIndex={0}
@@ -166,11 +157,6 @@ export const Dashboard = () => {
         <div className={dashborad == "video" ? "block" : "hidden"}>
           <div className="w-full">
             <VideoPage />
-          </div>
-        </div>
-        <div className={dashborad == "uploadVideo" ? "block" : "hidden"}>
-          <div className="w-full">
-            <VideoUploadMod onClose={openModel} open={open} />
           </div>
         </div>
       </div>

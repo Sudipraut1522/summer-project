@@ -1,12 +1,5 @@
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/24/solid";
+import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
 import {
   ColumnDef,
   flexRender,
@@ -17,7 +10,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import * as React from "react";
-// import Button from "./button";
 
 export default function Table({
   data,

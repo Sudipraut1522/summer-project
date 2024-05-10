@@ -16,6 +16,7 @@ const Register = async (data: Tregister) => {
     return response?.data;
   } catch (error) {
     console.error("Registration failed:", error);
+    return error?.response?.data?.error;
     // Handle error, e.g., display error message to user
   }
 };

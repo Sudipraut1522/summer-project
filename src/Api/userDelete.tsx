@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 const deleteUser = async (id: any) => {
@@ -9,15 +9,18 @@ const deleteUser = async (id: any) => {
       method: "DELETE",
     });
     console.log("response", response);
-  } catch (error) {
-    console.log("error", error);
+  } catch (error: any) {
+    return Promise.reject(error?.response?.data || "Something went wrong");
   }
 };
 export const userDelete = () => {
+  const query = useQueryClient();
+
   return useMutation({
     mutationFn: (id: any) => deleteUser(id),
     onSuccess: () => {
-      console.log("userdelete success");
+      "akjsfha";
+      query.invalidateQueries({ queryKey: ["allusers"] });
     },
     onError: (error) => console.log("some error occured", error),
   });

@@ -34,6 +34,7 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Tregister>({
     resolver: zodResolver(regesterSchema),
@@ -48,13 +49,14 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
     await mutate(data);
   };
 
-  //   useEffect(() => {
-  //     if (isSuccess) {
-  //       navigate("/home");
-  //     } else {
-  //       navigate("/");
-  //     }
-  //   }, [isSuccess, navigate]);
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/userlogin");
+      reset();
+    } else {
+      navigate("/");
+    }
+  }, [isSuccess, navigate]);
 
   return (
     <div className="flex justify-center items-center h-full w-full">

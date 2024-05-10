@@ -8,7 +8,6 @@ import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 import { adminLogin } from "../../Api/adminLogin";
 import { useAuth } from "../../Auth";
-import toast from "react-hot-toast";
 const customStyles = {
   content: {
     top: "40%",
@@ -81,7 +80,7 @@ const AdminLoginModel: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
               <InputField
                 register={register}
                 name="password"
-                type={"text"}
+                type={"password"}
                 labelname="password"
                 placeholder="password"
               />

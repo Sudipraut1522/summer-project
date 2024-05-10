@@ -28,6 +28,12 @@ interface ModelOpen {
 
 const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
   const { mutate, isSuccess } = uploadVideo();
+
+  useEffect(() => {
+    if (isSuccess) {
+      reset();
+    }
+  });
   const {
     register,
     handleSubmit,
@@ -41,6 +47,7 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
       title: "",
       description: "",
       videourl: {},
+      category: "",
     },
   });
 
@@ -49,7 +56,6 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
     formData.append("teachername", data.teachername);
     formData.append("title", data.title);
     formData.append("description", data.description);
-    // formData.append("image", data.image[0]);
     formData.append("videourl", data.videourl[0]);
     mutate({ ...data, videourl: data?.videourl[0] });
   };
@@ -65,7 +71,6 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
             </div>
             <hr />
             <form onSubmit={handleSubmit(onSubmit)}>
-              {/* {toregister && ( */}
               <div>
                 <InputField
                   register={register}
@@ -78,7 +83,6 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
                   {errors?.teachername?.message}
                 </span>
               </div>
-              {/* ) */}
 
               <InputField
                 register={register}
@@ -88,13 +92,13 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
                 placeholder="video Title"
               />
               <span className="text-red-600">{errors?.title?.message}</span>
-              {/* <InputField
+              <InputField
                 register={register}
-                name="image"
-                type="file"
-                labelname="image"
-                placeholder="image"
-              /> */}
+                name="category"
+                type="text"
+                labelname="Category"
+                placeholder="Category"
+              />
               <div>
                 {/* <span className="text-red-600">{errors.image?.message}</span> */}
               </div>
@@ -107,9 +111,9 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
                   placeholder="video..."
                 />
               </div>
-              {/* <div> */}
-              {/* <span className="text-red-600">{errors.image?.message}</span> */}
-              {/* </div>  */}
+              <div>
+                {/* <span className="text-red-600">{errors.image?.message}</span> */}
+              </div>
               <div>
                 <InputField
                   register={register}

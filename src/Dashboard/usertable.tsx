@@ -1,12 +1,14 @@
 "use client";
-import React, { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import Table from "../component/table";
 import { getAllUser } from "../Api/getallUsers";
+import { userDelete } from "../Api/userDelete";
 const columnHelper = createColumnHelper();
 
 const UserPage = () => {
-  const { data } = getAllUser();
+  const { mutate } = userDelete();
+  const { data, refetch } = getAllUser();
 
   const columns = useMemo(() => {
     return [
@@ -31,48 +33,56 @@ const UserPage = () => {
         cell: (info) => info.getValue().password || "",
         header: "Userpasword",
       }),
-      columnHelper.accessor((row: any) => row.isSuspended, {
-        id: "status",
-
-        cell: (info) => {
-          return info.getValue() ? (
-            <button className="text-red-500 ">suspended</button>
-          ) : (
-            <button className="text-green-500  ">active</button>
-          );
-        },
-        header: "Status",
+      columnHelper.accessor((row: any) => row, {
+        id: "isAdmin",
+        cell: (info) => info.getValue().isAdmin || "",
+        header: "Admin",
       }),
+      columnHelper.accessor((row: any) => row, {
+        id: "CreatedAt",
+        cell: (info) => info.getValue().createdAt || "",
+        header: "CreatedAt",
+      }),
+      columnHelper.accessor((row: any) => row, {
+        id: "UpdatedAt",
+        cell: (info) => info.getValue().updatedAt || "",
+        header: "UpdatedAt",
+      }),
+
       columnHelper.accessor((row: any) => row, {
         id: "actions",
         cell: (info) => {
           return (
             <>
-              {info.getValue().isSuspended ? (
-                <button
-                  className="bg-green-500 hover:bg-green-600 p-1 px-2 rounded-md text-white"
-                  onClick={() => info.getValue().id}
-                >
-                  activate
-                </button>
-              ) : (
-                <button
-                  className="bg-red-500 hover:bg-red-600 p-1 px-2 rounded-md text-white"
-                  onClick={() => info.getValue().id}
-                >
-                  suspend
-                </button>
-              )}
+              <button
+                className="bg-blue-500 hover:bg-blue-600 p-1 px-2 rounded-md text-white mr-2"
+                onClick={() => handleEdit(info.getValue().id)}
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-600 p-1 px-2 rounded-md text-white"
+                onClick={() => handleDelete(info.getValue().id)}
+              >
+                Delete
+              </button>
             </>
           );
         },
       }),
     ];
   }, []);
+  const handleEdit = (id: string) => {
+    // Handle edit action here, e.g., redirect to edit page
+  };
 
+  const handleDelete = async (id: any) => {
+    await mutate(id);
+    refetch();
+  };
   return (
     <div>
-      <h1 className="font-bold text-xl text-primary-500 py-5">Users</h1>
+      <h1 className="font-bold text-xl text-primary-500 py-5">UsersData</h1>
 
       <Table columns={columns} data={data ?? []} />
     </div>

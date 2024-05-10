@@ -15,7 +15,7 @@ export const allUser = async () => {
 };
 export const getAllUser = () => {
   return useQuery({
-    queryKey: ["all_users"],
+    queryKey: ["allusers"],
     queryFn: allUser,
   });
 };

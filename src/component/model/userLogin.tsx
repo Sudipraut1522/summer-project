@@ -79,7 +79,7 @@ const UserLoginModel: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
               <InputField
                 register={register}
                 name="password"
-                type={"text"}
+                type={"password"}
                 labelname="password"
                 placeholder="password"
               />
