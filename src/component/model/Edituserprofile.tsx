@@ -4,9 +4,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputField from "../Input/Inputfield";
 import Button from "../Button/Button";
-import { userRegister } from "../../Api/userRegister";
-import { Tregister, regesterSchema } from "../../schema/LoginSchema";
 import { useNavigate } from "react-router-dom";
+import { Tregister, regesterSchema } from "../../schema/LoginSchema";
+import { useEidiUserProfile } from "../../Api/edituserProfile";
+import getAllUserProfile from "../../Api/userProfile";
 
 const customStyles = {
   content: {
@@ -23,41 +24,48 @@ const customStyles = {
 interface ModelOpen {
   open: boolean;
   onClose: () => void;
-  login?: () => void;
 }
 
-const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
+const Edituserprofile: React.FC<ModelOpen> = ({ open, onClose }) => {
   const router = useNavigate();
-  const { mutate, isSuccess } = userRegister();
+
+  const { data: userProfile } = getAllUserProfile();
+  const { mutate, isSuccess } = useEidiUserProfile();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useForm<Tregister>({
     resolver: zodResolver(regesterSchema),
-    defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-      imageurl: {},
-    },
   });
 
+  useEffect(() => {
+    if (userProfile) {
+      setValue("username", userProfile.username || "");
+      setValue("email", userProfile.email || "");
+      setValue("password", userProfile.password || "");
+      setValue("imageurl", userProfile.imageurl[0] || "");
+    }
+  }, [userProfile, setValue]);
+
   const onSubmit: SubmitHandler<Tregister> = async (data) => {
-    console.log("data", data);
+    try {
+      const formData = new FormData();
+      formData.append("imageurl", data.imageurl[0]);
 
-    const formData = new FormData();
-    formData.append("imageurl", data.imageurl[0]);
-
-    mutate({ ...data, imageurl: data.imageurl[0] });
+      mutate({ ...data, imageurl: data.imageurl[0] });
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      // Handle error (e.g., show error message)
+    }
   };
-
   useEffect(() => {
     if (isSuccess) {
-      reset();
-      router("userlogin");
+      reset(); // Reset form on success
+      router("/home/userprofile"); // Redirect to user profile page
     }
   }, [isSuccess, reset, router]);
 
@@ -67,7 +75,7 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
         <Modal isOpen={open} style={customStyles}>
           <div className="p-4">
             <div className="flex justify-center">
-              <div className="text-3xl">Register</div>
+              <div className="text-3xl">Edit Profile</div>
             </div>
             <hr />
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -76,7 +84,7 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
                   register={register}
                   name="username"
                   type="text"
-                  labelname="username"
+                  labelname="Username"
                   placeholder="Username"
                 />
                 <span className="text-red-600">
@@ -92,7 +100,6 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
                 placeholder="Email"
               />
               <span className="text-red-600">{errors?.email?.message}</span>
-
               <InputField
                 register={register}
                 name="imageurl"
@@ -100,35 +107,25 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
                 labelname="Image"
                 placeholder="Image"
               />
-              {errors.imageurl && typeof errors.imageurl === "string" && (
-                <span className="text-red-600">{errors.imageurl}</span>
-              )}
+              {/* <span className="text-red-600">{errors?.imageurl?.message}</span> */}
+
+              {/* Input field for image goes here */}
 
               <InputField
                 register={register}
                 name="password"
                 type="password"
-                labelname="password"
-                placeholder="password"
+                labelname="Password"
+                placeholder="Password"
               />
               <div>
                 <span className="text-red-600">
                   {errors?.password?.message}
                 </span>
               </div>
-              <div>
-                <div>
-                  <p>
-                    Already have an Account?
-                    <span>
-                      <button onClick={login}>Login</button>
-                    </span>
-                  </p>
-                </div>
-              </div>
 
               <div className="py-4 flex gap-4">
-                <Button text="Register" />
+                <Button text="Update" />
                 <Button text="Close" onClick={onClose} />
               </div>
             </form>
@@ -139,4 +136,4 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
   );
 };
 
-export default Model;
+export default Edituserprofile;

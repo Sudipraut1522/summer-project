@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+// Home.tsx
+
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { video } from "../Api/getAllVideo";
 import { countViews } from "../Api/videoViews";
 import userLike from "../Api/lvideoLike";
-import { HandThumbUpIcon, EyeIcon } from "@heroicons/react/24/outline";
+import { watchHistory } from "../Api/watchHistory";
+import {
+  HandThumbUpIcon,
+  EyeIcon,
+  ClockIcon,
+} from "@heroicons/react/24/outline";
+import { NavLink, useNavigate } from "react-router-dom";
 
 interface Video {
   id: any;
@@ -12,22 +20,24 @@ interface Video {
   videourl: string;
   title: string;
   description: string;
-  category: string; // Add category property to Video interface
+  category: string;
 }
 
 const Home: React.FC = () => {
+  const router = useNavigate();
   const { data, isLoading, isError } = useQuery<Video[], Error>({
     queryKey: ["videos"],
     queryFn: video,
   });
 
   const { mutate } = userLike();
+  const { mutate: recordWatchHistory } = watchHistory();
 
   const [visibleVideos, setVisibleVideos] = useState<{ [key: string]: number }>(
     {}
   );
-
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [watchedVideos, setWatchedVideos] = useState<string[]>([]);
 
   const { mutate: updateViews } = countViews();
 
@@ -39,11 +49,26 @@ const Home: React.FC = () => {
     setVisibleVideos((prevVisibleVideos) => ({
       ...prevVisibleVideos,
       [category]: (prevVisibleVideos[category] || 0) + 4,
-    })); // Increase the number of visible videos for the given category
+    }));
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+  };
+
+  useEffect(() => {
+    const watchedVideosFromStorage = localStorage.getItem("watchedVideos");
+    if (watchedVideosFromStorage) {
+      setWatchedVideos(JSON.parse(watchedVideosFromStorage));
+    }
+  }, []);
+
+  const markVideoAsWatched = (videoId: string) => {
+    setWatchedVideos((prevWatchedVideos) => [...prevWatchedVideos, videoId]);
+    localStorage.setItem(
+      "watchedVideos",
+      JSON.stringify([...watchedVideos, videoId])
+    );
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -62,16 +87,19 @@ const Home: React.FC = () => {
   ];
 
   const handleVideoPlay = (id: any) => {
-    updateViews(id);
+    if (!watchedVideos.includes(id)) {
+      updateViews(id);
+      recordWatchHistory(id);
+      markVideoAsWatched(id);
+    }
   };
 
   const handelLike = (id: any) => {
-    // Toggle like status
-    setLikedVideos((prevLikedVideos) => ({
-      ...prevLikedVideos,
-      [id]: !prevLikedVideos[id],
-    }));
     mutate(id);
+  };
+
+  const watchHistroyPage = () => {
+    // router("/watchhistory");
   };
 
   return (
@@ -80,13 +108,23 @@ const Home: React.FC = () => {
         <Sidebar data={filteredVideos ?? []} categories={categories} />
       </div>
       <div className="flex-1 p-4">
-        <input
-          type="text"
-          placeholder="Search by title..."
-          className="mb-4 px-4 py-2 border border-gray-300 rounded-md w-full"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
+        <div className="flex justify-between items-center mb-4">
+          <input
+            type="text"
+            placeholder="Search by title..."
+            className="px-4 py-2 border border-gray-300 rounded-md w-96"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <NavLink to={"watchhistory"}>
+            <button className="flex items-center bg-gray-200 px-3 py-2 rounded-md">
+              <ClockIcon className="w-5 h-5 mr-1 text-gray-600" />
+              <span className="text-gray-600" onClick={watchHistroyPage}>
+                Watch History
+              </span>
+            </button>
+          </NavLink>
+        </div>
         {categories.map((category) => {
           const categoryVideos = filteredVideos?.filter(
             (video) => video.category === category
@@ -101,16 +139,14 @@ const Home: React.FC = () => {
                 {videosToShow.map((video, index) => (
                   <div
                     key={index}
-                    className="w-1/4 p-2" // Adjust width to fit 4 videos in a row
-                    style={{ flexBasis: "25%" }} // Set flex basis to 25% for each video container
+                    className="w-1/4 p-2"
+                    style={{ flexBasis: "25%" }}
                   >
                     <div className="bg-white rounded-md overflow-hidden shadow-md">
-                      <div className="h-80">
+                      <div className="video-container">
                         <video
                           controls
-                          width="100%"
-                          height="250"
-                          className="object-cover"
+                          className="video-player"
                           onPlay={() => handleVideoPlay(video.id)}
                         >
                           <source src={video.videourl} />

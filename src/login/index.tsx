@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserLoginModel from "../component/model/userLogin";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const [openmodal, setOpemMOdal] = useState(true);
+  const router = useNavigate();
+  const [openmodal, setOpenModal] = useState(true);
+
+  useEffect(() => {
+    if (!openmodal) {
+      router("/userlogin");
+    }
+  }, [openmodal, router]);
 
   const closeModal = () => {
-    setOpemMOdal(false);
+    setOpenModal(false);
+    router("/");
   };
+
   return (
     <>
       <UserLoginModel openLogin={openmodal} onClose={closeModal} />

@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import { Tvideo } from "../schema/videoschema";
 
 const upload = async (data: Tvideo) => {
-  console.log("i am here", data);
   try {
     const response = await axios({
       url: "http://localhost:4000/api/v1/upload",

@@ -7,6 +7,7 @@ import InputField from "../Input/Inputfield";
 import Button from "../Button/Button";
 import { userLogin } from "../../Api/userLoin";
 import { useAuth } from "../../Auth";
+import "react-toastify/dist/ReactToastify.css";
 
 import { useNavigate } from "react-router-dom";
 const customStyles = {
@@ -36,10 +37,8 @@ const UserLoginModel: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
     }
     if (localStorage.getItem("token")) {
       router("/home");
-    } else {
-      router("/");
     }
-  }, [isSuccess]);
+  }, [isSuccess, router]);
 
   const {
     register,

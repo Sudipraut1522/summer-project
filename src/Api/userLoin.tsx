@@ -1,11 +1,10 @@
-// userRegister.ts
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import toast from "react-hot-toast";
 import { Tlogin } from "../schema/LoginSchema";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const login = async (data: Tlogin) => {
-  console.log("i am here", data);
   try {
     const response = await axios({
       url: "http://localhost:4000/api/v1/login",
@@ -20,18 +19,19 @@ const login = async (data: Tlogin) => {
     }
     return response?.data;
   } catch (error) {
-    console.error("Login failed:");
-    // Handle error, e.g., display error message to user
+    console.error("Login failed:", error);
+    throw new Error("Login failed"); // Throw error to be caught by onError
   }
 };
+
 export const userLogin = () => {
   return useMutation({
     mutationFn: (data: Tlogin | any) => login(data),
-    onSuccess: () => {
-      toast.success("welcome to dashboard");
+    onError: (error: any) => {
+      toast.error(`Error occurred: ${error.message}`);
     },
-    onError: (error) => {
-      toast.error(`Some error occured`);
+    onSuccess: () => {
+      toast.success("Welcome to the Home page");
     },
   });
 };

@@ -10,8 +10,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import * as React from "react";
+import { NavLink } from "react-router-dom";
 
-export default function Table({
+export default function VideoTable({
   data,
   columns,
   noDataMessage,
@@ -27,8 +28,8 @@ export default function Table({
   const filteredData = React.useMemo(
     () =>
       data.filter((item: any) =>
-        item.username
-          ? item.username.toLowerCase().includes(searchQuery.toLowerCase())
+        item.teachername
+          ? item.teachername.toLowerCase().includes(searchQuery.toLowerCase())
           : false
       ),
     [data, searchQuery]
@@ -53,14 +54,19 @@ export default function Table({
   return (
     <div className="w-full">
       <div className="p-1 bg-milky rounded-md shadow-xl">
-        <div className="mb-4">
+        <div className="mb-4 flex items-center p-4">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by username"
-            className="px-4 py-2 border rounded-md w-full "
+            placeholder="Search by TeacherName"
+            className="px-4 py-2 border rounded-md w-full"
           />
+          <NavLink to="/dashboard/videoupload">
+            <button className="ml-2 px-4  bg-red-600 text-white rounded-md hover:bg-blue-600">
+              Add Video
+            </button>
+          </NavLink>
         </div>
         <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-gray-50">

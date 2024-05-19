@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputField from "../Input/Inputfield";
 import Button from "../Button/Button";
-
 import { Tvideo, videoSchema } from "../../schema/videoschema";
 import { uploadVideo } from "../../Api/videoUpload";
+import { useNavigate } from "react-router-dom";
+
 const customStyles = {
   content: {
     top: "40%",
@@ -22,18 +23,20 @@ const customStyles = {
 interface ModelOpen {
   open: boolean;
   onClose: () => void;
-  toregister?: boolean;
-  login?: () => void;
 }
 
 const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
-  const { mutate, isSuccess } = uploadVideo();
+  const router = useNavigate();
+  const { mutate, isPending, isSuccess } = uploadVideo();
+  const [uploadError, setUploadError] = useState<string | null>(null); // State to track upload error
 
   useEffect(() => {
     if (isSuccess) {
       reset();
+      router("/dashboard/videopage");
     }
-  });
+  }, [isSuccess, router]);
+
   const {
     register,
     handleSubmit,
@@ -41,7 +44,6 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
     formState: { errors },
   } = useForm<Tvideo>({
     resolver: zodResolver(videoSchema),
-
     defaultValues: {
       teachername: "",
       title: "",
@@ -57,10 +59,18 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("videourl", data.videourl[0]);
-    mutate({ ...data, videourl: data?.videourl[0] });
+
+    try {
+      await mutate(formData);
+      // Reset upload error state if upload is successful
+      setUploadError(null);
+    } catch (error) {
+      console.error("Error uploading video:", error);
+      // Set upload error state to display error message
+      setUploadError("Failed to upload video. Please try again.");
+    }
   };
 
-  console.log(errors, "errors");
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div className="">
@@ -77,10 +87,10 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
                   name="teachername"
                   type="text"
                   labelname="TeacherName"
-                  placeholder="teachername"
+                  placeholder="Teacher Name"
                 />
                 <span className="text-red-600">
-                  {errors?.teachername?.message}
+                  {errors.teachername && errors.teachername.message}
                 </span>
               </div>
 
@@ -89,9 +99,12 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
                 name="title"
                 type="text"
                 labelname="Title"
-                placeholder="video Title"
+                placeholder="Video Title"
               />
-              <span className="text-red-600">{errors?.title?.message}</span>
+              <span className="text-red-600">
+                {errors.title && errors.title.message}
+              </span>
+
               <InputField
                 register={register}
                 name="category"
@@ -99,21 +112,26 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
                 labelname="Category"
                 placeholder="Category"
               />
-              <div>
-                {/* <span className="text-red-600">{errors.image?.message}</span> */}
-              </div>
+              <span className="text-red-600">
+                {errors.category && errors.category.message}
+              </span>
+
               <div>
                 <InputField
                   register={register}
                   name="videourl"
                   type="file"
-                  labelname="video"
-                  placeholder="video..."
+                  labelname="Video"
+                  placeholder="Video"
                 />
               </div>
+
               <div>
-                {/* <span className="text-red-600">{errors.image?.message}</span> */}
+                {uploadError && (
+                  <span className="text-red-600">{uploadError}</span>
+                )}
               </div>
+
               <div>
                 <InputField
                   register={register}
@@ -122,15 +140,18 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
                   labelname="Description"
                   placeholder="Description"
                 />
-                <div>
-                  <span className="text-red-600">
-                    {errors?.description?.message}
-                  </span>
-                </div>
+                <span className="text-red-600">
+                  {errors.description && errors.description.message}
+                </span>
               </div>
 
               <div className="py-4 flex gap-4">
-                <Button text="Upload" />
+                <button
+                  className="text-l p-2 w-auto bg-red-600 border-2 rounded-md text-white"
+                  disabled={isPending}
+                >
+                  {isPending ? "Uploading..." : "Upload"}
+                </button>
                 <Button text="Close" onClick={onClose} />
               </div>
             </form>

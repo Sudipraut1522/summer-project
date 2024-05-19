@@ -1,21 +1,21 @@
 import { useState } from "react";
-import AdminLoginModel from "../component/model/AdminLogin";
 import { useNavigate } from "react-router-dom";
+import VideoUploadMod from "../../component/model/videoUpload";
 
-const Admin = () => {
+const VideoUpload = () => {
   const router = useNavigate();
   const [openLogin, setOpenLogin] = useState(true);
 
   const openModal = () => {
     setOpenLogin(false);
-    router("/");
+    router("/dashboard/videopage");
   };
 
   return (
     <div>
-      <AdminLoginModel openLogin={openLogin} onClose={openModal} />
+      <VideoUploadMod open={openLogin} onClose={openModal} />
     </div>
   );
 };
 
-export default Admin;
+export default VideoUpload;

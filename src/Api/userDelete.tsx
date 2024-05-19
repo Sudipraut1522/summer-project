@@ -7,8 +7,11 @@ const deleteUser = async (id: any) => {
     const response = await axios({
       url: `http://localhost:4000/api/v1/delete/${id}`,
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
-    console.log("response", response);
+    return response?.data;
   } catch (error: any) {
     return Promise.reject(error?.response?.data || "Something went wrong");
   }

@@ -19,19 +19,36 @@ const login = async (data: Tlogin) => {
       localStorage.setItem("role", response?.data?.isAdmin);
     }
     return response?.data;
-  } catch (error) {
-    console.error("Login failed:");
-    // Handle error, e.g., display error message to user
+  } catch (error: any) {
+    console.error("Login failed:", error);
+    // Check if the error response is in JSON format
+    if (error.response && error.response.data) {
+      // Display error message from JSON response
+      toast.error(
+        `An error occurred while logging in: ${error.response.data.message}`
+      );
+    } else {
+      // Display generic error message
+      toast.error(
+        "An error occurred while logging in. Please try again later."
+      );
+    }
+    // Rethrow the error to be caught by the mutation
+    throw error;
   }
 };
+
 export const adminLogin = () => {
   return useMutation({
     mutationFn: (data: Tlogin | any) => login(data),
     onSuccess: () => {
-      toast.success("welcome to dashboard");
+      toast.success("Welcome to dashboard");
     },
-    onError: (error) => {
-      toast.error(`Some error occured`);
+    onError: (error: any) => {
+      // Display generic error message
+      toast.error(
+        "An error occurred while logging in. Please try again later."
+      );
     },
   });
 };

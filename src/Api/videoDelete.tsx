@@ -6,6 +6,9 @@ const videoDelete = async (id: any) => {
     const responce = await axios({
       url: `http://localhost:4000/api/v1/deletevideo/${id}`,
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
 
     return responce?.data;

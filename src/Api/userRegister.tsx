@@ -1,33 +1,38 @@
-// userRegister.ts
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import toast from "react-hot-toast";
 import { Tregister } from "../schema/LoginSchema";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = async (data: Tregister) => {
   console.log("i am here", data);
   try {
-    const response = await axios.post(
-      "http://localhost:4000/api/v1/register",
-      data
-    );
-    console.log("Registration successful:", response.data);
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/register",
+      method: "POST",
+      data: data,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
     return response?.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Registration failed:", error);
-    return error?.response?.data?.error;
-    // Handle error, e.g., display error message to user
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error);
+    } else {
+      throw error;
+    }
   }
 };
+
 export const userRegister = () => {
   return useMutation({
     mutationFn: (data: Tregister | any) => Register(data),
     onSuccess: (data: any) => {
-      toast.success(`successfilly register`);
+      toast.success(`Successfully registered:${data}`);
     },
-    onError: (error) => {
-      toast.error(`Some error occured`);
+    onError: (error: any) => {
+      toast.error(`An error occurred while registering: ${error.message}`);
     },
   });
 };

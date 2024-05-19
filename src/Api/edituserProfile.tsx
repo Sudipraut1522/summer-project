@@ -3,36 +3,33 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Tregister } from "../schema/LoginSchema";
 
-const edit = async (data: any) => {
-  const { id, ...rest } = data;
-  console.log({ rest });
+const edit = async (data: Tregister) => {
   try {
-    const response = await axios({
-      url: `http://localhost:4000/api/v1/editvideo/${id}`,
+    const responce = await axios({
+      url: `http://localhost:4000/api/v1/editprofile`,
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "multipart/form-data",
       },
-      data: rest,
+      data: data,
     });
-
-    console.log("this is res", response?.data);
-    return response?.data;
+    return responce?.data;
   } catch (error: any) {
-    return Promise.reject(error?.response?.data || "Something went wrong");
+    return Promise.reject(error?.responce?.data || "something is wrong");
   }
 };
 
-export const useEditVideo = () => {
+export const useEidiUserProfile = () => {
   return useMutation({
-    mutationFn: (data) => edit(data),
+    mutationFn: (data: Tregister) => edit(data),
     onSuccess: (data) => {
       toast.success(`${data.message}`);
     },
     onError: (error) => {
-      toast.error("Some error occurred");
+      toast.error("some error occured");
     },
   });
 };
