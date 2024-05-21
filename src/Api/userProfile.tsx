@@ -10,11 +10,8 @@ const user = async () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    console.log("response", response?.data?.user);
     return response?.data?.user;
   } catch (error) {
-    // Renamed variable to 'error'
-    console.log("An error occurred", error); // Logging the error message
     throw error; // Rethrow the error to handle it in the caller
   }
 };

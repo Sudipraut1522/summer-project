@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const history = async () => {
@@ -10,12 +10,9 @@ const history = async () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    console.log("response", response?.data?.watchHistory);
     return response?.data?.watchHistory;
   } catch (error) {
-    // Renamed variable to 'error'
-    console.log("An error occurred", error); // Logging the error message
-    throw error; // Rethrow the error to handle it in the caller
+    throw error;
   }
 };
 

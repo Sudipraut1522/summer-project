@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const deleteUser = async (id: any) => {
-  console.log("id", id);
   try {
     const response = await axios({
       url: `http://localhost:4000/api/v1/delete/${id}`,
@@ -22,9 +22,9 @@ export const userDelete = () => {
   return useMutation({
     mutationFn: (id: any) => deleteUser(id),
     onSuccess: () => {
-      "akjsfha";
+      toast.success("User delete successfully");
       query.invalidateQueries({ queryKey: ["allusers"] });
     },
-    onError: (error) => console.log("some error occured", error),
+    onError: (error: any) => toast.error("User delete successfully"),
   });
 };

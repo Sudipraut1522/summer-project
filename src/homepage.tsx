@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-600 bg-[url('https://thumbs.dreamstime.com/b/asian-student-boy-video-conference-e-learning-teacher-computer-living-room-home-online-education-internet-social-187311773.jpg')]">
+    <div className="">
       <Model onClose={closeModal} open={isModalOpen} login={toggleModal} />
     </div>
   );

@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 const like = async (id: any) => {
-  console.log("id", id);
   try {
     const responce = await axios({
       url: `http://localhost:4000/api/v1/like/${id}`,
@@ -12,7 +11,6 @@ const like = async (id: any) => {
       },
     });
 
-    console.log(responce?.data);
     return responce?.data;
   } catch (error) {
     throw error;

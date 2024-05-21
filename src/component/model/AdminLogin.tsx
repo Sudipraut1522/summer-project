@@ -8,6 +8,7 @@ import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 import { adminLogin } from "../../Api/adminLogin";
 import { useAuth } from "../../Auth";
+
 const customStyles = {
   content: {
     top: "40%",
@@ -26,7 +27,7 @@ interface ModelOpen {
 }
 
 const AdminLoginModel: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
-  const router = useNavigate();
+  const navigate = useNavigate();
   const { mutate, isSuccess } = adminLogin();
   const { checkToken, isLoggedIn } = useAuth();
   const {
@@ -50,15 +51,12 @@ const AdminLoginModel: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
       checkToken();
     }
     if (localStorage.getItem("token")) {
-      router("/dashboard");
+      navigate("/dashboard");
     } else {
-      router("/admin");
+      navigate("/admin");
     }
-  }, [isSuccess]);
-  if (isLoggedIn) {
-    // router("/dashboard");
-    return;
-  }
+  }, [isSuccess, checkToken, navigate]);
+
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div className="">

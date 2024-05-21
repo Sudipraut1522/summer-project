@@ -19,7 +19,6 @@ const login = async (data: Tlogin) => {
     }
     return response?.data;
   } catch (error) {
-    console.error("Login failed:", error);
     throw new Error("Login failed"); // Throw error to be caught by onError
   }
 };

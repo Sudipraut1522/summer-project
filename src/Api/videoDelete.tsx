@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const videoDelete = async (id: any) => {
   try {
@@ -12,8 +13,9 @@ const videoDelete = async (id: any) => {
     });
 
     return responce?.data;
-  } catch (error) {
+  } catch (error: any) {
     console.log("error", error);
+    return Promise.reject(error?.response?.data || "Something went wrong");
   }
 };
 
@@ -23,11 +25,11 @@ export const deleteVideo = () => {
     mutationFn: (id: any) => videoDelete(id),
 
     onSuccess: () => {
-      console.log("deleted video successful");
+      toast.success(`Delete video successfull`);
       query.invalidateQueries({ queryKey: ["usersvideo"] });
     },
     onError: () => {
-      console.log("some error occured");
+      toast.error(`sorry to delte video`);
     },
   });
 };

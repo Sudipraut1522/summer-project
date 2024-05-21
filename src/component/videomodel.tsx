@@ -1,5 +1,3 @@
-// Home.tsx
-
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { video } from "../Api/getAllVideo";
@@ -24,7 +22,6 @@ interface Video {
 }
 
 const Home: React.FC = () => {
-  const router = useNavigate();
   const { data, isLoading, isError } = useQuery<Video[], Error>({
     queryKey: ["videos"],
     queryFn: video,

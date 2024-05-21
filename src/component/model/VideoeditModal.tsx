@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputField from "../Input/Inputfield";
@@ -8,20 +8,21 @@ import { Tvideo, videoSchema } from "../../schema/videoschema";
 import { getVideoById } from "../../Api/getvideobyid";
 import { useEditVideo } from "../../Api/editVideo";
 
-interface modealOpen {
+interface ModalOpen {
   open: boolean;
   onClose: () => void;
 }
 
-const VideoEditPage: React.FC<modealOpen> = ({ open, onClose }) => {
+const VideoEditPage: React.FC<ModalOpen> = ({ open, onClose }) => {
+  const router = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { mutate: editVideoMutation } = useEditVideo();
+  const { mutate: editVideoMutation, isSuccess } = useEditVideo();
   const { data: videoData } = getVideoById(id);
 
   const {
     register,
     handleSubmit,
-    setValue, // Add setValue from useForm
+    setValue,
     formState: { errors },
   } = useForm<Tvideo>({
     resolver: zodResolver(videoSchema),
@@ -35,19 +36,23 @@ const VideoEditPage: React.FC<modealOpen> = ({ open, onClose }) => {
   });
 
   useEffect(() => {
-    setValue("teachername", videoData?.teachername);
-    setValue("title", videoData?.title);
-    setValue("description", videoData?.description);
-    setValue("category", videoData?.category);
+    if (isSuccess) {
+      router("/dashboard/videopage");
+    }
+  }, [isSuccess, router]);
+
+  useEffect(() => {
+    if (videoData) {
+      setValue("teachername", videoData.teachername);
+      setValue("title", videoData.title);
+      setValue("description", videoData.description);
+      setValue("category", videoData.category);
+      setValue("videourl", videoData.videourl);
+    }
   }, [videoData, setValue]);
 
   const onSubmit: SubmitHandler<Tvideo> = (data: any) => {
-    const formData = new FormData();
-    formData.append("teachername", data.teachername);
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    // formData.append("videourl", data.videourl[0]);
-    formData.append("category", data.category);
+    console.log("Submitting data", data);
     editVideoMutation({ ...data, id });
   };
 
@@ -93,7 +98,7 @@ const VideoEditPage: React.FC<modealOpen> = ({ open, onClose }) => {
           labelname="Video"
           placeholder="Video..."
         />
-        {/* <span className="text-red-600">{errors.videourl?.message}</span> */}
+        {/* <span className="text-red-600">{errors.videourl[0]?.message}</span> */}
 
         <InputField
           register={register}

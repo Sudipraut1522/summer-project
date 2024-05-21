@@ -58,15 +58,15 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
     formData.append("teachername", data.teachername);
     formData.append("title", data.title);
     formData.append("description", data.description);
+    formData.append("category", data.category);
+
     formData.append("videourl", data.videourl[0]);
 
     try {
       await mutate(formData);
-      // Reset upload error state if upload is successful
       setUploadError(null);
     } catch (error) {
       console.error("Error uploading video:", error);
-      // Set upload error state to display error message
       setUploadError("Failed to upload video. Please try again.");
     }
   };

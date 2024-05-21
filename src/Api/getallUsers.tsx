@@ -10,7 +10,7 @@ export const allUser = async () => {
     console.log(responce?.data?.users);
     return responce?.data?.users;
   } catch (error) {
-    console.log("something went wrong");
+    return Promise.reject("Something went wrong");
   }
 };
 export const getAllUser = () => {
