@@ -19,5 +19,6 @@ export const getVideoById = (id: any) => {
   return useQuery({
     queryFn: () => videoDetail(id),
     queryKey: ["getvideobyid"],
+    enabled: !!id,
   });
 };

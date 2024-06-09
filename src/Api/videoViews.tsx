@@ -11,7 +11,6 @@ const videoViews = async (id: any) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    console.log("response", response);
     return response.data;
   } catch (error) {
     // Renamed variable to 'error'

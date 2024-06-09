@@ -41,12 +41,6 @@ const UserPage = () => {
       }),
 
       columnHelper.accessor((row: any) => row, {
-        id: "CreatedAt",
-        cell: (info) => info.getValue().createdAt || "",
-        header: "CreatedAt",
-      }),
-
-      columnHelper.accessor((row: any) => row, {
         id: "actions",
         cell: (info) => {
           return (

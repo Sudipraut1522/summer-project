@@ -13,6 +13,8 @@ import UserPage from "./Admin/Dashboard/usertable.tsx";
 import VideoPage from "./Admin/Dashboard/videopage.tsx";
 import VideoUpload from "./Admin/Dashboard/videoupload.tsx";
 import VideoUpadatePage from "./Admin/Dashboard/videoeditpage.tsx";
+import ReportPage from "./Admin/Dashboard/Reportpage.tsx";
+import GetVideoByID from "./Ui/VideoById.tsx";
 
 const App = () => {
   return (
@@ -25,11 +27,14 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="userProfile" element={<UserProfile />} />
             <Route path="watchhistory" element={<History />} />
+            <Route path="video/:id" element={<GetVideoByID />} />
           </Route>
 
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="userpage" element={<UserPage />} />
             <Route path="videopage" element={<VideoPage />} />
+            <Route path="reportpage" element={<ReportPage />} />
+
             <Route path="videoupload" element={<VideoUpload />} />
             <Route path="videoeditpage/:id" element={<VideoUpadatePage />} />
           </Route>

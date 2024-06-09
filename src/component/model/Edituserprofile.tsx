@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,6 +32,8 @@ const Edituserprofile: React.FC<ModelOpen> = ({ open, onClose }) => {
   const { data: userProfile } = getAllUserProfile();
   const { mutate, isSuccess } = useEidiUserProfile();
 
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -53,6 +55,7 @@ const Edituserprofile: React.FC<ModelOpen> = ({ open, onClose }) => {
 
   const onSubmit: SubmitHandler<Tregister> = async (data) => {
     try {
+      setIsUpdating(true); // Set updating state to true before mutation
       const formData = new FormData();
       formData.append("imageurl", data.imageurl[0]);
 
@@ -62,8 +65,10 @@ const Edituserprofile: React.FC<ModelOpen> = ({ open, onClose }) => {
       // Handle error (e.g., show error message)
     }
   };
+
   useEffect(() => {
     if (isSuccess) {
+      setIsUpdating(false); // Set updating state to false after mutation
       reset(); // Reset form on success
       router("/home/userprofile"); // Redirect to user profile page
     }

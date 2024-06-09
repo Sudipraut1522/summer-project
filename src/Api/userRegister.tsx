@@ -16,12 +16,7 @@ const Register = async (data: Tregister) => {
 
     return response?.data;
   } catch (error: any) {
-    console.error("Registration failed:", error);
-    if (error.response && error.response.data && error.response.data.error) {
-      throw new Error(error.response.data.error);
-    } else {
-      throw error;
-    }
+    return Promise.reject(error?.response?.data || "Something went wrong");
   }
 };
 
@@ -29,10 +24,10 @@ export const userRegister = () => {
   return useMutation({
     mutationFn: (data: Tregister | any) => Register(data),
     onSuccess: (data: any) => {
-      toast.success(`Successfully registered:${data}`);
+      toast.success(`Successfully registered`);
     },
     onError: (error: any) => {
-      toast.error(`An error occurred while registering: ${error.message}`);
+      toast.error(`Sorry Failed to Register: ${error.message}`);
     },
   });
 };

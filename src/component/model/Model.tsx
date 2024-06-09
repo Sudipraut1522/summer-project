@@ -28,7 +28,7 @@ interface ModelOpen {
 
 const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
   const router = useNavigate();
-  const { mutate, isSuccess } = userRegister();
+  const { mutate, isSuccess, error } = userRegister();
 
   const {
     register,
@@ -45,6 +45,8 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
     },
   });
 
+  console.log("error", error);
+
   const onSubmit: SubmitHandler<Tregister> = async (data) => {
     console.log("data", data);
 
@@ -57,7 +59,7 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
   useEffect(() => {
     if (isSuccess) {
       reset();
-      router("userlogin");
+      router("/userlogin");
     }
   }, [isSuccess, reset, router]);
 
@@ -76,7 +78,7 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
                   register={register}
                   name="username"
                   type="text"
-                  labelname="username"
+                  labelname="Username"
                   placeholder="Username"
                 />
                 <span className="text-red-600">
@@ -108,7 +110,7 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
                 register={register}
                 name="password"
                 type="password"
-                labelname="password"
+                labelname="Password"
                 placeholder="password"
               />
               <div>

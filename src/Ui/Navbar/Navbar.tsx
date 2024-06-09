@@ -23,7 +23,7 @@ const Navbar = () => {
               className="text-3xl text-white cursor-pointer"
               onClick={() => location.reload()}
             >
-              Video Streaming
+              Alpha Streaming
             </h3>
             <div className="flex items-center gap-10">
               <NavLink to="/home/userprofile">
@@ -62,7 +62,7 @@ const Navbar = () => {
                     alt="FlowBite Logo"
                   />
                   <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                    Flowbite
+                    Alpha Streming
                   </span>
                 </a>
               </div>

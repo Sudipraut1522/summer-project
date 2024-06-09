@@ -6,7 +6,8 @@ const ACCEPTED_VIDEO_TYPES = ["video/mp4", "video/webm"]; // Accept all video MI
 export const videoSchema = z.object({
   teachername: z.string().min(5, { message: "teacher is required" }),
   title: z.string().min(5, { message: "Title is required" }),
-  category: z.string().min(1, { message: "Title is required" }),
+  category: z.string().min(1, { message: "category is required" }),
+  subCategory: z.string().min(1, { message: "subCategory is required" }),
 
   videourl: z
     .any()
@@ -17,7 +18,8 @@ export const videoSchema = z.object({
     .refine(
       (files) => files?.[0]?.size <= MAX_FILE_SIZE_VIDEO,
       `Max video size is 5MB.`
-    ),
+    )
+    .optional(),
 
   description: z.string().min(10, { message: " required more the 10 latter" }),
 });

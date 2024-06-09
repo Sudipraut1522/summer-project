@@ -13,6 +13,7 @@ const edit = async (data: any) => {
   formData.append("videourl", data?.videourl[0]);
 
   formData.append("category", data.category);
+  formData.append("subCategory", data.subCategory);
 
   console.log({ formdata: formData });
 

@@ -75,7 +75,7 @@ export const Dashboard = () => {
           </NavLink>
 
           <NavLink
-            to=""
+            to="reportpage"
             className={({ isActive }) =>
               `flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 ${
                 isActive ? "text-blue-900" : ""
@@ -97,7 +97,7 @@ export const Dashboard = () => {
                 ></path>
               </svg>
             </div>
-            User Profile
+            Report{" "}
           </NavLink>
 
           <NavLink to="videoupload">

@@ -32,6 +32,7 @@ const VideoEditPage: React.FC<ModalOpen> = ({ open, onClose }) => {
       description: "",
       videourl: {},
       category: "",
+      subCategory: "",
     },
   });
 
@@ -48,6 +49,7 @@ const VideoEditPage: React.FC<ModalOpen> = ({ open, onClose }) => {
       setValue("description", videoData.description);
       setValue("category", videoData.category);
       setValue("videourl", videoData.videourl);
+      setValue("subCategory", videoData.subCategory);
     }
   }, [videoData, setValue]);
 
@@ -90,6 +92,14 @@ const VideoEditPage: React.FC<ModalOpen> = ({ open, onClose }) => {
           placeholder="Category"
         />
         <span className="text-red-600">{errors.category?.message}</span>
+        <InputField
+          register={register}
+          name="subcategory"
+          type="text"
+          labelname="class"
+          placeholder="subCategory"
+        />
+        <span className="text-red-600">{errors.subCategory?.message}</span>
 
         <InputField
           register={register}

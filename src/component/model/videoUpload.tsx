@@ -50,6 +50,7 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
       description: "",
       videourl: {},
       category: "",
+      subCategory: "",
     },
   });
 
@@ -59,6 +60,7 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("category", data.category);
+    formData.append("subCategory", data.subCategory);
 
     formData.append("videourl", data.videourl[0]);
 
@@ -114,6 +116,16 @@ const VideoUploadMod: React.FC<ModelOpen> = ({ open, onClose }) => {
               />
               <span className="text-red-600">
                 {errors.category && errors.category.message}
+              </span>
+              <InputField
+                register={register}
+                name="subCategory"
+                type="text"
+                labelname="subCategory"
+                placeholder="class"
+              />
+              <span className="text-red-600">
+                {errors.subCategory && errors.subCategory?.message}
               </span>
 
               <div>

@@ -52,8 +52,6 @@ const AdminLoginModel: React.FC<ModelOpen> = ({ openLogin, onClose }) => {
     }
     if (localStorage.getItem("token")) {
       navigate("/dashboard");
-    } else {
-      navigate("/admin");
     }
   }, [isSuccess, checkToken, navigate]);
 
