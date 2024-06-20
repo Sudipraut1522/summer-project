@@ -31,7 +31,6 @@ const Home: React.FC = () => {
     queryFn: video,
   });
 
-  const { mutate: likeVideo } = userLike();
   const { mutate: recordWatchHistory } = watchHistory();
   const { mutate: updateViews } = countViews();
 
@@ -40,9 +39,7 @@ const Home: React.FC = () => {
   );
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [watchedVideos, setWatchedVideos] = useState<string[]>([]);
-  const [likedVideos, setLikedVideos] = useState<{ [key: string]: boolean }>(
-    {}
-  );
+
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(
     null
@@ -68,11 +65,6 @@ const Home: React.FC = () => {
       recordWatchHistory(videoId);
       markVideoAsWatched(videoId);
     }
-  };
-
-  const handleLike = (videoId: string) => {
-    likeVideo(videoId);
-    setLikedVideos((prev) => ({ ...prev, [videoId]: !prev[videoId] }));
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,9 +168,8 @@ const Home: React.FC = () => {
                 </NavLink>
                 <div className="flex justify-between items-center px-4 py-2 bg-gray-200">
                   <button
-                    onClick={() => handleLike(video.id)}
-                    className={`flex gap-2 items-center ${
-                      likedVideos[video.id] ? "text-blue-500" : ""
+                    // onClick={() => handleLike(video.id)}
+                    className={`flex gap-2 items-center ? "text-blue-500" : ""
                     }`}
                   >
                     <HandThumbUpIcon height={20} className="text-blue-700" />
@@ -197,7 +188,7 @@ const Home: React.FC = () => {
             </div>
           ))}
         </div>
-        {visibleCategoryVideos && visibleCategoryVideos.length >= 4 && (
+        {visibleCategoryVideos && visibleCategoryVideos.length > 4 && (
           <div className="flex justify-center mt-4">
             <button
               onClick={() =>

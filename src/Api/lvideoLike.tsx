@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 const like = async (id: any) => {
@@ -18,10 +18,13 @@ const like = async (id: any) => {
 };
 
 export const userLike = () => {
+  const query = useQueryClient();
+
   return useMutation({
     mutationFn: (id: any) => like(id),
     onSuccess: () => {
       console.log("Video Like success");
+      query.invalidateQueries({ queryKey: ["usersvideo"] });
     },
     onError: (error) => {
       console.log("An error occurred", error);

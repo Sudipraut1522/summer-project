@@ -48,8 +48,6 @@ const Model: React.FC<ModelOpen> = ({ open, onClose, login }) => {
   console.log("error", error);
 
   const onSubmit: SubmitHandler<Tregister> = async (data) => {
-    console.log("data", data);
-
     const formData = new FormData();
     formData.append("imageurl", data.imageurl[0]);
 

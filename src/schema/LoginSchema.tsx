@@ -18,7 +18,10 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
 export const regesterSchema = z.object({
   username: z.string().min(5, { message: "username is required" }),
   email: z.string().email({ message: "Email is required" }),
-  password: z.string().min(1, { message: "Password is required" }),
+  password: z
+    .string()
+    .max(10, { message: "Password must be less then 10 character)" })
+    .min(1, { message: "Password is required" }),
   imageurl: z
     .any()
     .refine((files) => {

@@ -17,16 +17,25 @@ interface TableProps {
   noDataMessage?: string | null;
 }
 
-const Table: React.FC<TableProps> = ({ data, columns, noDataMessage }) => {
+const UserTable: React.FC<TableProps> = ({
+  data,
+  columns,
+  noDataMessage = "No data available",
+}) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [searchQuery, setSearchQuery] = React.useState("");
 
+  React.useEffect(() => {
+    console.log("Table data:", data);
+    console.log("Table columns:", columns);
+  }, [data, columns]);
+
   const filteredData = React.useMemo(
     () =>
       data.filter((item: any) =>
-        item.userName
-          ? item.userName.toLowerCase().includes(searchQuery.toLowerCase())
+        item.username
+          ? item.username.toLowerCase().includes(searchQuery.toLowerCase())
           : false
       ),
     [data, searchQuery]
@@ -147,4 +156,4 @@ const Table: React.FC<TableProps> = ({ data, columns, noDataMessage }) => {
   );
 };
 
-export default Table;
+export default UserTable;

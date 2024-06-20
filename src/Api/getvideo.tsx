@@ -10,8 +10,8 @@ export const videoById = async (id: any) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-
-    return responce?.data?.video;
+    console.log("getvideocomment", responce);
+    // return responce?.data?.video;
   } catch (err) {
     throw err;
   }

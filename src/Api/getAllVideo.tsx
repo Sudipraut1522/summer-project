@@ -10,10 +10,9 @@ export const video = async () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    console.log(responce.data?.users);
     return responce?.data?.users;
   } catch (error) {
-    console.log("something went wrong");
+    throw error;
   }
 };
 export const getAllVideo = () => {

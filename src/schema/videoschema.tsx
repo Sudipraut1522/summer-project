@@ -1,6 +1,6 @@
 import * as z from "zod";
 const MAX_FILE_SIZE = 5000000;
-const MAX_FILE_SIZE_VIDEO = 20 * 1024 * 1024; // 20MB in bytes
+const MAX_FILE_SIZE_VIDEO = 300 * 1024 * 1024; // 20MB in bytes
 const ACCEPTED_VIDEO_TYPES = ["video/mp4", "video/webm"]; // Accept all video MIME types
 
 export const videoSchema = z.object({
@@ -17,7 +17,7 @@ export const videoSchema = z.object({
     )
     .refine(
       (files) => files?.[0]?.size <= MAX_FILE_SIZE_VIDEO,
-      `Max video size is 5MB.`
+      `Max video size is 300MB.`
     )
     .optional(),
 
